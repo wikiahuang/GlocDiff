@@ -61,3 +61,5 @@ utils/
 Checkpoints are saved every epoch under `utils/logs/<project_name>/<run_name>/`.
 
 ## Test in Simulator
+
+You can use a model you trained yourself, or the checkpoint we provide at [`glocdiff_checkpoint.pth`](./glocdiff_checkpoint.pth).
