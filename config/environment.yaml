@@ -1,0 +1,33 @@
+name: GlocDiff
+channels:
+  - defaults
+dependencies:
+  - python=3.12
+  - numpy
+  - matplotlib
+  - ipykernel
+  - pip
+  - pip:
+    # torch/torchvision must come from the cu124 build, otherwise pip
+    # defaults to a newer CUDA build that many GPU drivers can't run yet
+    - --extra-index-url https://download.pytorch.org/whl/cu124
+    - torch==2.5.1
+    - torchvision==0.20.1
+    - tqdm
+    - opencv-python
+    - warmup-scheduler
+    - diffusers==0.35.1
+    # transformers must stay on the 4.x line: 5.x removed FLAX_WEIGHTS_NAME,
+    # which breaks diffusers' Marigold pipeline import
+    - transformers==4.46.0
+    - lmdb
+    - einops
+    - efficientnet_pytorch
+    - tensorboard
+    - wandb
+    - accelerate
+    # diffusion_policy is not published on PyPI; clone it into the project
+    # root and install it in editable mode separately:
+    #   git clone https://github.com/real-stanford/diffusion_policy.git
+    #   pip install -e diffusion_policy/
+    # (it must live at GlocDiff/diffusion_policy/ for the import path to resolve)

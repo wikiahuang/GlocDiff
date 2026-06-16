@@ -1,0 +1,5 @@
+utils/logs/
+utils/wandb/
+diffusion_policy/
+**/__pycache__/
+**/*.pyc

@@ -1,0 +1,60 @@
+project_name: glocdiff
+run_name: glocdiff
+# training setup
+logger: wandb # options: tensorboard, wandb, none
+batch_size: 96
+epochs: 20
+num_workers: 4
+lr: 1e-4
+optimizer: adamw
+scheduler: "cosine"
+warmup: False
+warmup_epochs: 4
+seed: 0
+obs_type: image
+load_run: "/home/weiqi/code/GlocDiff/utils/logs/flona_plus_19.pth"  # set to "project_name/run_name" to resume from checkpoint
+metric_waypoint_spacing: 0.045
+# model params
+vision_encoder: flona_vint
+encoding_size: 256
+floorplan_encoder: efficientnet-b0
+cond_predict_scale: False
+mha_num_attention_heads: 4
+mha_num_attention_layers: 4
+mha_ff_dim_factor: 4
+down_dims: [64, 128, 256]
+max_sigma: 0.1
+# diffusion model params
+num_diffusion_iters: 10
+
+# normalization for the action space
+normalize: True
+
+# context
+context_size: 5 # 5
+alpha: 1e-3
+beta: 10
+
+# action output params
+len_traj_pred: 32
+
+# dataset specific parameters
+image_size: [96, 96] # width, height
+datasets:
+
+  data_folder: /home/weiqi/data/flona/scenes_117
+  traversable_map_folder: /home/weiqi/data/flona/trav_maps 
+  end_slack: 0 # because many trajectories end in collisions
+  waypoint_spacing: 1
+  scene_names: [Azusa_1]
+  # [Albertville_0, Mosinee_0, Pleasant_0, Roxboro_0, Spencerville_0, Albertville_1, Azusa_1, Colebrook_0, Eagerville_0, Hainesburg_1, Lovilia_0, Mosquito_0, Plessis_0,  Eastville_0, Hambleton_0, Lovilia_1, Mosquito_1, Quantico_0, Sanctuary_0, Springhill_0, Anaheim_1, Ballou_1, Convoy_0, Edgemere_0, Haxtun_0, Maben_0, Nicut_0, Rabbit_0, Sands_0, Crandon_0, Espanola_0,  Sumas_0, Angiola_0, Bonfield_0, Crandon_1, Eudora_0, Hometown_0, Mesic_0, Nuevo_0, Ribera_0, Seward_0, Superior_0, Mesic_1, Oyens_0, Roane_0, Shelbiana_0, Cantwell_0, Delton_0, Goffs_0, Kerrtown_0, Monson_0, Parole_0, Roeville_0, Silas_0, Arkansaw_1, Capistrano_0, Denmark_0, Goffs_1, Ladue_0, Monson_1, Dryville_0, Greigsville_0, Ladue_1, Morris_0, Placida_0, Rosser_0, Sodaville_0]
+  # [Albertville_0, Azusa_1, Eagerville_0,  Plessis_0,  Eastville_0, Hambleton_0, Quantico_0, Sanctuary_0, Springhill_0, Sands_0, Crandon_0, Espanola_0, Nuevo_0, Ribera_0, Seward_0, Superior_0, Mesic_1, Goffs_0, Kerrtown_0, Monson_0, Roeville_0, Silas_0, Denmark_0, Goffs_1, Ladue_0, Ladue_1, Morris_0, Placida_0, Rosser_0, Sodaville_0] 30
+  # [Albertville_0, Mosinee_0, Pleasant_0, Roxboro_0, Spencerville_0, Albertville_1, Azusa_1, Colebrook_0, Eagerville_0, Hainesburg_1, Lovilia_0, Mosquito_0, Plessis_0,  Eastville_0, Hambleton_0, Lovilia_1, Mosquito_1, Quantico_0, Sanctuary_0, Springhill_0, Anaheim_1, Ballou_1, Convoy_0, Edgemere_0, Haxtun_0, Maben_0, Nicut_0, Rabbit_0, Sands_0, Crandon_0, Espanola_0,  Sumas_0, Angiola_0, Bonfield_0, Crandon_1, Eudora_0, Hometown_0, Mesic_0, Nuevo_0, Ribera_0, Seward_0, Superior_0, Mesic_1, Oyens_0, Roane_0, Shelbiana_0, Cantwell_0, Delton_0, Goffs_0, Kerrtown_0, Monson_0, Parole_0, Roeville_0, Silas_0, Arkansaw_1, Capistrano_0, Denmark_0, Goffs_1, Ladue_0, Monson_1, Dryville_0, Greigsville_0, Ladue_1, Morris_0, Placida_0, Rosser_0, Sodaville_0] 67
+  # [Albertville_0, Caruthers_0, Dunmor_0, Hainesburg_0, Lathrup_0, Mosinee_0, Pleasant_0, Roxboro_0, Spencerville_0, Albertville_1, Azusa_1, Colebrook_0, Hainesburg_1, Lovilia_0, Mosquito_0, Plessis_0, Samuels_0, Spotswood_0, Anaheim_0, Ballou_0, Connellsville_0, Eastville_0, Hambleton_0, Mosquito_1, Quantico_0, Sanctuary_0, Springhill_0, Anaheim_1, Ballou_1, Convoy_0, Edgemere_0, Haxtun_0, Maben_0, Nicut_0, Sands_0, Stilwell_0, Andover_0, Cooperstown_0, Hillsdale_0, Maryhill_0, Nimmons_0, Sasakwa_0, Andover_1, Bolton_0, Crandon_0, Espanola_0, Hillsdale_1, Matoaca_0, Norvelt_0, Reyno_0, Sawpit_0, Angiola_0, Crandon_1, Eudora_0, Hometown_0, Mesic_0, Nuevo_0, Ribera_0, Seward_0, Superior_0, Annawan_0, Dauberville_0, Ewansville_0, Hominy_0, Mesic_1, Oyens_0, Roane_0, Shelbiana_0, Swormville_0, Applewold_1, Brevort_0, Dauberville_1, Hominy_1, Mobridge_0, Pablo_0, Rockport_0, Shingler_0, Woonsocket_0, Arkansaw_0, Cantwell_0, Delton_0, Kerrtown_0, Parole_0, Roeville_0, Arkansaw_1, Capistrano_0, Denmark_0, Goffs_1, Ladue_0, Monson_1, Pettigrew_0, Sisters_0, Capistrano_1, Dryville_0, Greigsville_0, Ladue_1, Morris_0, Placida_0, Rosser_0, Sodaville_0] 100
+  # [Albertville_0, Azusa_0, Caruthers_0, Dunmor_0, Hainesburg_0, Lathrup_0, Mosinee_0, Pleasant_0, Roxboro_0, Spencerville_0, Albertville_1, Azusa_1, Colebrook_0, Eagerville_0, Hainesburg_1, Lovilia_0, Mosquito_0, Plessis_0, Samuels_0, Spotswood_0, Anaheim_0, Ballou_0, Connellsville_0, Eastville_0, Hambleton_0, Lovilia_1, Mosquito_1, Quantico_0, Sanctuary_0, Springhill_0, Anaheim_1, Ballou_1, Convoy_0, Edgemere_0, Haxtun_0, Maben_0, Nicut_0, Rabbit_0, Sands_0, Stilwell_0, Andover_0, Beach_0, Cooperstown_0, Elmira_0, Hillsdale_0, Maryhill_0, Nimmons_0, Rancocas_0, Sasakwa_0, Stokes_0, Andover_1, Bolton_0, Crandon_0, Espanola_0, Hillsdale_1, Matoaca_0, Norvelt_0, Reyno_0, Sawpit_0, Sumas_0, Angiola_0, Bonfield_0, Crandon_1, Eudora_0, Hometown_0, Mesic_0, Nuevo_0, Ribera_0, Seward_0, Superior_0, Annawan_0, Brentsville_0, Dauberville_0, Ewansville_0, Hominy_0, Mesic_1, Oyens_0, Roane_0, Shelbiana_0, Swormville_0, Applewold_1, Brevort_0, Dauberville_1, Ewansville_1, Hominy_1, Mobridge_0, Pablo_0, Rockport_0, Shingler_0, Woonsocket_0, Arkansaw_0, Cantwell_0, Delton_0, Goffs_0, Kerrtown_0, Monson_0, Parole_0, Roeville_0, Silas_0, Arkansaw_1, Capistrano_0, Denmark_0, Goffs_1, Ladue_0, Monson_1, Pettigrew_0, Rosenberg_0, Sisters_0, Avonia_0, Capistrano_1, Dryville_0, Greigsville_0, Ladue_1, Morris_0, Placida_0, Rosser_0, Sodaville_0] 117
+
+# logging stuff
+## =0 turns off
+print_log_freq: 50    # log metrics every N batches
+image_log_freq: 50    # visualize trajectory every N batches (0 to disable)
+num_images_log: 4     # number of samples to visualize
