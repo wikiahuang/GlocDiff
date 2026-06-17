@@ -198,7 +198,7 @@ def main(config):
 
     train_dataset = GlocDiffDataset(
         data_folder=os.path.join(data_config["data_folder"], "train"),
-        scene_names=data_config['scene_names'],
+        scene_names=data_config['scenes_for_training'],
         image_size=config["image_size"],
         waypoint_spacing=data_config["waypoint_spacing"],
         len_traj_pred=config["len_traj_pred"],
