@@ -21,6 +21,8 @@ utils/
   train_utils.py            # training loop, loss computation, visualization
   glocdiff_dataset.py        # dataset class
   data_utils.py              # coordinate/image transform helpers
+  test_glocdiff.py           # closed-loop evaluation entry point (iGibson simulator)
+  compute_nav_metrics.py     # SR / SPL / SoftSPL from saved test_glocdiff.py rollouts
 ```
 
 ## Training
@@ -30,7 +32,7 @@ utils/
 - conda (or miniconda)
 
 ### Setup
-1. Create the conda environment:
+1. Create the conda environment (this same environment is also used for simulator testing below, hence the Python 3.8 pin -- iGibson's bundled native renderer only compiles against it):
    ```bash
    conda env create -f config/environment.yaml
    conda activate GlocDiff
@@ -63,3 +65,46 @@ Checkpoints are saved every epoch under `utils/logs/<project_name>/<run_name>/`.
 ## Test in Simulator
 
 You can use a model you trained yourself, or the checkpoint we provide at [`glocdiff_checkpoint.pth`](./glocdiff_checkpoint.pth).
+
+GlocDiff is evaluated with a closed-loop rollout in [iGibson](https://github.com/StanfordVL/iGibson): the robot has no physical body, it's the iGibson render camera, teleported step by step (matching the camera-only setup used to collect training data). At each replanning step the shortest-path local condition is recomputed online with A* over the scene's floor plan, the model predicts a short sequence of waypoints, and the camera walks through them (checking for wall collisions) until it reaches the goal, gets stuck, or hits the step limit.
+
+### Setup
+
+In the same `GlocDiff` conda environment (with `diffusion_policy` already installed per the Training section's Setup above), clone iGibson into the project root and install it in editable mode (must live at `GlocDiff/iGibson/` for the import paths to resolve):
+```bash
+conda activate GlocDiff
+cd GlocDiff
+git clone https://github.com/StanfordVL/iGibson.git --recursive
+pip install -e iGibson/
+```
+
+You'll also need three kinds of assets, none of which are stored in this repo:
+- **iGibson scene assets**: the raw scene meshes + `floors.txt` (per-floor height) that `igibson.scenes.gibson_indoor_scene.StaticIndoorScene` loads, plus iGibson's shared `assets/` (robot/material assets). Both go under `iGibson/igibson/data/` (`g_dataset/` and `assets/` respectively) — see iGibson's own [asset download instructions](https://github.com/StanfordVL/iGibson/blob/master/docs/installation.md).
+- **Test trajectories + floor plans**: the same per-scene layout used by training (`floorplan.png`, `traj_*/traj_*.npy`), under the scene's `test` split.
+- **Traversable maps**: per-scene `foucused_map.png` (used for A* path planning), `map.png` (used for the trajectory visualization), and `floor_trav_test_<floor>_modified_8bit.png` (used for collision checking) — all at the same pixel scale (1px = 1cm).
+
+### Running a test
+
+1. Fill in `config/test_glocdiff.yaml`: `checkpoint_path`, `testdataset`, `trav_maps_path`, `scene_path` (the iGibson `g_dataset/` from Setup above), `test_scenes`, and `traj_index_range` (which of each scene's auto-discovered trajectories to run). The model hyperparameters must match the checkpoint being evaluated.
+
+2. Run it:
+   ```bash
+   cd utils
+   python test_glocdiff.py --config ../config/test_glocdiff.yaml
+   ```
+
+Each run writes to its own timestamped folder under `state_save_dir`:
+```
+<state_save_dir>/run_<timestamp>/
+  test_glocdiff.log              # full log (console only shows nav-relevant lines)
+  <scene>/<traj_name>/
+    frames/                      # every rendered RGB frame
+    trajectory.png               # path overlaid on the scene's floor plan
+    states.txt                   # [x, y, heading_x, heading_y, collision] per frame
+```
+
+3. Compute success rate / SPL / SoftSPL from a run's saved trajectories:
+   ```bash
+   python compute_nav_metrics.py --config ../config/test_glocdiff.yaml
+   ```
+   This defaults to the most recent run under `state_save_dir`; pass `--state-save-dir` to point at a specific one, or `--arrive-th`/`--collision-limit` to sweep thresholds.

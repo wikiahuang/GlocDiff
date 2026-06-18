@@ -1,5 +1,7 @@
 utils/logs/
 utils/wandb/
+utils/test_results/
 diffusion_policy/
+iGibson/
 **/__pycache__/
 **/*.pyc

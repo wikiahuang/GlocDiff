@@ -2,32 +2,42 @@ name: GlocDiff
 channels:
   - defaults
 dependencies:
-  - python=3.12
+  - python=3.8.5
   - numpy
   - matplotlib
   - ipykernel
   - pip
   - pip:
-    # torch/torchvision must come from the cu124 build, otherwise pip
-    # defaults to a newer CUDA build that many GPU drivers can't run yet
+    # torch 2.5+ no longer publishes cp38 wheels, so this env is pinned to
+    # the last cu124 build that still supports Python 3.8 (required by iGibson)
     - --extra-index-url https://download.pytorch.org/whl/cu124
-    - torch==2.5.1
-    - torchvision==0.20.1
-    - tqdm
-    - opencv-python
+    - torch==2.4.1
+    - torchvision==0.19.1
+    - tqdm==4.64.0
+    - opencv-python==4.6.0.66
+    - h5py==3.6.0
+    - wandb==0.12.18
+    - efficientnet-pytorch
     - warmup-scheduler
-    - diffusers==0.35.1
+    - diffusers==0.33.1
     # transformers must stay on the 4.x line: 5.x removed FLAX_WEIGHTS_NAME,
     # which breaks diffusers' Marigold pipeline import
     - transformers==4.46.0
     - lmdb
     - einops
-    - efficientnet_pytorch
+    - vit-pytorch
+    - positional-encodings
     - tensorboard
-    - wandb
     - accelerate
+    - networkx
+    - pyyaml
     # diffusion_policy is not published on PyPI; clone it into the project
     # root and install it in editable mode separately:
     #   git clone https://github.com/real-stanford/diffusion_policy.git
     #   pip install -e diffusion_policy/
     # (it must live at GlocDiff/diffusion_policy/ for the import path to resolve)
+    #
+    # iGibson requires Python 3.8 to compile its bundled pybind11 extension
+    # (newer Python versions break its CPython internals usage). Install it
+    # separately after creating this env:
+    #   pip install -e iGibson/

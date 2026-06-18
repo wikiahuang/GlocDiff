@@ -1,0 +1,37 @@
+# Config for utils/test_glocdiff.py (closed-loop iGibson rollout).
+# Model hyperparameters below must match the checkpoint being loaded
+# (copied from config/glocdiff.yaml).
+
+checkpoint_path: /media/data/weiqi_data/code/GlocDiff/glocdiff_checkpoint.pth
+
+testdataset: /home/weiqi/data/glocdiff/scenes_117/test/
+trav_maps_path: /home/weiqi/data/glocdiff/trav_maps/
+scene_path: /media/data/weiqi_data/code/GlocDiff/iGibson/igibson/data/g_dataset/
+state_save_dir: ./test_results/
+
+# which scenes to test, and which trajectory indices (sorted, 0-based)
+# within each scene's auto-discovered traj_* folders to run
+test_scenes: [Norvelt_0, Rosenberg_0, Ewansville_0, Swormville_0, Sasakwa_0]
+traj_index_range: [0, 10]  # first 10 trajectories (sorted by id) per scene
+
+headless: True
+initial_pos: [1.6, 0, 1.3]        # only used when headless: False
+initial_view_direction: [-0.7, 0, -0.7]
+
+context_size: 5
+metric_waypoint_spacing: 0.045
+waypoint_spacing: 1
+arrive_th: 0.25
+max_steps: 90
+
+encoding_size: 256
+floorplan_encoder: efficientnet-b0
+cond_predict_scale: False
+mha_num_attention_heads: 4
+mha_num_attention_layers: 4
+mha_ff_dim_factor: 4
+down_dims: [64, 128, 256]
+num_diffusion_iters: 10
+len_traj_pred: 32
+image_size: [96, 96]
+device: cuda:0
