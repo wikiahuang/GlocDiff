@@ -1,6 +1,8 @@
 # GlocDiff
 
-This repository is the official implementation of paper "Robust Floor Plan-Guided Visual Navigation Incorporating Depth and Directional Cues".
+This repository is the official implementation of paper ["Floor Plan-Guided Visual Navigation Incorporating Depth and Directional Cues"](https://arxiv.org/abs/2511.01493).
+
+[Weiqi Huang](https://wikiahuang.github.io/), [Jiaxin Li](https://gauleejx.github.io/), [Zan Wang](https://silvester.wang/), Huijun Di, [Wei Liang](https://liangwei-bit.github.io/web/), Zhu Yang
 
 ![GlocDiff teaser](assets/teaser.png)
 
