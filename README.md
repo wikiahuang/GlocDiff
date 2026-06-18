@@ -84,10 +84,9 @@ git clone https://github.com/StanfordVL/iGibson.git --recursive
 pip install -e iGibson/
 ```
 
-You'll also need (none of this is stored in this repo):
-- iGibson's [scene + shared assets](https://github.com/StanfordVL/iGibson/blob/master/docs/installation.md), under `iGibson/igibson/data/`
-- Test trajectories + floor plans, same layout as training, under the scene's `test` split
-- Per-scene traversable maps (`foucused_map.png`, `map.png`, `floor_trav_test_<floor>_modified_8bit.png`)
+You'll also need iGibson's own [scene + shared assets](https://github.com/StanfordVL/iGibson/blob/master/docs/installation.md) (not part of the dataset above), under `iGibson/igibson/data/`.
+
+The dataset from the Data Preparation step above already includes what testing needs beyond that: the `test` split's trajectories + floor plans, and each scene's traversable maps (`foucused_map.png`, `map.png`, `floor_trav_test_<floor>_modified_8bit.png`).
 
 ### Running a test
 
