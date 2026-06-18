@@ -64,13 +64,11 @@ Checkpoints are saved every epoch under `utils/logs/<project_name>/<run_name>/`.
 
 ## Test in Simulator
 
-You can use a model you trained yourself, or the checkpoint we provide at [`glocdiff_checkpoint.pth`](./glocdiff_checkpoint.pth).
-
-GlocDiff is evaluated with a closed-loop rollout in [iGibson](https://github.com/StanfordVL/iGibson): the robot has no physical body, it's the iGibson render camera, teleported step by step (matching the camera-only setup used to collect training data). At each replanning step the shortest-path local condition is recomputed online with A* over the scene's floor plan, the model predicts a short sequence of waypoints, and the camera walks through them (checking for wall collisions) until it reaches the goal, gets stuck, or hits the step limit.
+You can use a model you trained yourself, or the checkpoint we provide at [`glocdiff_checkpoint.pth`](./glocdiff_checkpoint.pth). Testing runs a closed-loop rollout in [iGibson](https://github.com/StanfordVL/iGibson): the model replans a short path every few steps, and the iGibson camera (standing in for the robot) walks through it until it reaches the goal, gets stuck, or hits the step limit.
 
 ### Setup
 
-In the same `GlocDiff` conda environment (with `diffusion_policy` already installed per the Training section's Setup above), clone iGibson into the project root and install it in editable mode (must live at `GlocDiff/iGibson/` for the import paths to resolve):
+In the same `GlocDiff` conda environment, clone iGibson into the project root and install it in editable mode:
 ```bash
 conda activate GlocDiff
 cd GlocDiff
@@ -78,14 +76,14 @@ git clone https://github.com/StanfordVL/iGibson.git --recursive
 pip install -e iGibson/
 ```
 
-You'll also need three kinds of assets, none of which are stored in this repo:
-- **iGibson scene assets**: the raw scene meshes + `floors.txt` (per-floor height) that `igibson.scenes.gibson_indoor_scene.StaticIndoorScene` loads, plus iGibson's shared `assets/` (robot/material assets). Both go under `iGibson/igibson/data/` (`g_dataset/` and `assets/` respectively) — see iGibson's own [asset download instructions](https://github.com/StanfordVL/iGibson/blob/master/docs/installation.md).
-- **Test trajectories + floor plans**: the same per-scene layout used by training (`floorplan.png`, `traj_*/traj_*.npy`), under the scene's `test` split.
-- **Traversable maps**: per-scene `foucused_map.png` (used for A* path planning), `map.png` (used for the trajectory visualization), and `floor_trav_test_<floor>_modified_8bit.png` (used for collision checking) — all at the same pixel scale (1px = 1cm).
+You'll also need (none of this is stored in this repo):
+- iGibson's [scene + shared assets](https://github.com/StanfordVL/iGibson/blob/master/docs/installation.md), under `iGibson/igibson/data/`
+- Test trajectories + floor plans, same layout as training, under the scene's `test` split
+- Per-scene traversable maps (`foucused_map.png`, `map.png`, `floor_trav_test_<floor>_modified_8bit.png`)
 
 ### Running a test
 
-1. Fill in `config/test_glocdiff.yaml`: `checkpoint_path`, `testdataset`, `trav_maps_path`, `scene_path` (the iGibson `g_dataset/` from Setup above), `test_scenes`, and `traj_index_range` (which of each scene's auto-discovered trajectories to run). The model hyperparameters must match the checkpoint being evaluated.
+1. Fill in `config/test_glocdiff.yaml`: `checkpoint_path`, `testdataset`, `trav_maps_path`, `scene_path`, `test_scenes`, and `traj_index_range`.
 
 2. Run it:
    ```bash
