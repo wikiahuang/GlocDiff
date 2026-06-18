@@ -2,6 +2,8 @@
 
 This repository is the official implementation of paper "Robust Floor Plan-Guided Visual Navigation Incorporating Depth and Directional Cues".
 
+![GlocDiff teaser](assets/teaser.png)
+
 ## Overview
 
 GlocDiff predicts a robot's future trajectory with a diffusion policy conditioned on two parts:
@@ -106,3 +108,14 @@ Each run writes to its own timestamped folder under `state_save_dir`:
    python compute_nav_metrics.py --config ../config/test_glocdiff.yaml
    ```
    This defaults to the most recent run under `state_save_dir`; pass `--state-save-dir` to point at a specific one, or `--arrive-th`/`--collision-limit` to sweep thresholds.
+
+## Citation
+
+```bibtex
+@article{huang2025floor,
+  title={Floor Plan-Guided Visual Navigation Incorporating Depth and Directional Cues},
+  author={Huang, Weiqi and Li, Jiaxin and Wang, Zan and Di, Huijun and Liang, Wei and Yang, Zhu},
+  journal={arXiv preprint arXiv:2511.01493},
+  year={2025}
+}
+```
