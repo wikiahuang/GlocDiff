@@ -1,16 +1,12 @@
 # GlocDiff
 
-<p align="center">
-  <a href="https://arxiv.org/abs/2511.01493"><img src="https://img.shields.io/badge/arXiv-2511.01493-b31b1b.svg" alt="arXiv"></a>
-  <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a>
-  <img src="https://img.shields.io/badge/python-3.8-blue.svg" alt="Python 3.8">
-</p>
+[![arXiv](https://img.shields.io/badge/arXiv-2511.01493-b31b1b.svg)](https://arxiv.org/abs/2511.01493)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+![Python 3.8](https://img.shields.io/badge/python-3.8-blue.svg)
 
-This repository is the official implementation of paper ["Floor Plan-Guided Visual Navigation Incorporating Depth and Directional Cues"](https://arxiv.org/abs/2511.01493).
+Official implementation of ["Floor Plan-Guided Visual Navigation Incorporating Depth and Directional Cues"](https://arxiv.org/abs/2511.01493).
 
-<p align="center">
-  <a href="https://wikiahuang.github.io/">Weiqi Huang</a>, <a href="https://gauleejx.github.io/">Jiaxin Li</a>, <a href="https://silvester.wang/">Zan Wang</a>, Huijun Di, <a href="https://liangwei-bit.github.io/web/">Wei Liang</a>, Zhu Yang
-</p>
+<sub>[Weiqi Huang](https://wikiahuang.github.io/) · [Jiaxin Li](https://gauleejx.github.io/) · [Zan Wang](https://silvester.wang/) · Huijun Di · [Wei Liang](https://liangwei-bit.github.io/web/) · Zhu Yang</sub>
 
 <p align="center">
   <img src="assets/teaser.png" alt="GlocDiff teaser" width="900">
