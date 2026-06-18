@@ -1,10 +1,20 @@
 # GlocDiff
 
+<p align="center">
+  <a href="https://arxiv.org/abs/2511.01493"><img src="https://img.shields.io/badge/arXiv-2511.01493-b31b1b.svg" alt="arXiv"></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a>
+  <img src="https://img.shields.io/badge/python-3.8-blue.svg" alt="Python 3.8">
+</p>
+
 This repository is the official implementation of paper ["Floor Plan-Guided Visual Navigation Incorporating Depth and Directional Cues"](https://arxiv.org/abs/2511.01493).
 
-[Weiqi Huang](https://wikiahuang.github.io/), [Jiaxin Li](https://gauleejx.github.io/), [Zan Wang](https://silvester.wang/), Huijun Di, [Wei Liang](https://liangwei-bit.github.io/web/), Zhu Yang
+<p align="center">
+  <a href="https://wikiahuang.github.io/">Weiqi Huang</a>, <a href="https://gauleejx.github.io/">Jiaxin Li</a>, <a href="https://silvester.wang/">Zan Wang</a>, Huijun Di, <a href="https://liangwei-bit.github.io/web/">Wei Liang</a>, Zhu Yang
+</p>
 
-![GlocDiff teaser](assets/teaser.png)
+<p align="center">
+  <img src="assets/teaser.png" alt="GlocDiff teaser" width="900">
+</p>
 
 ## Overview
 
@@ -121,3 +131,11 @@ Each run writes to its own timestamped folder under `state_save_dir`:
   year={2025}
 }
 ```
+
+## Acknowledgments
+
+This codebase builds on [diffusion_policy](https://github.com/real-stanford/diffusion_policy) for the conditional U-Net, [Marigold](https://huggingface.co/prs-eth/marigold-depth-lcm-v1-0) for monocular depth estimation, and [iGibson](https://github.com/StanfordVL/iGibson) for simulation. Thanks to the authors for open-sourcing their work.
+
+## License
+
+This project is released under the [MIT License](./LICENSE).
