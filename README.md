@@ -56,9 +56,7 @@ utils/
    It must live at `GlocDiff/diffusion_policy/` for the import path in `utils/train.py` to resolve correctly.
 
 ### Data Preparation
-1. Download Dataset
-
-   [TODO: dataset download link]
+1. Download the dataset from [ModelScope](https://modelscope.cn/datasets/weiqihuang/flona_with_shortestpath).
 
 ### Let's train GlocDiff!
 
